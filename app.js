@@ -11,7 +11,6 @@ const stationDial = document.getElementById("stationDial");
 const stationLabels = document.getElementById("stationLabels");
 const volumeDial = document.getElementById("volumeDial");
 const toneDial = document.getElementById("toneDial");
-const knobElements = Array.from(document.querySelectorAll(".knob"));
 const scopeCanvas = document.getElementById("scopeCanvas");
 const eqBarsRoot = document.getElementById("eqBars");
 const scopeCtx = scopeCanvas.getContext("2d");
@@ -50,93 +49,6 @@ function sanitizeTrack(track) {
 
 function getCurrentStation() {
   return state.stations[state.stationIndex];
-}
-
-function setKnobRotation(knob, input) {
-  const min = Number(input.min || 0);
-  const max = Number(input.max || 100);
-  const value = Number(input.value);
-  const normalized = max === min ? 0 : (value - min) / (max - min);
-  const rotation = -130 + normalized * 260;
-  knob.style.setProperty("--rotation", `${rotation}deg`);
-  knob.setAttribute("aria-valuemin", String(min));
-  knob.setAttribute("aria-valuemax", String(max));
-  knob.setAttribute("aria-valuenow", String(value));
-}
-
-function updateInputValue(input, nextValue) {
-  const min = Number(input.min || 0);
-  const max = Number(input.max || 100);
-  const step = Number(input.step || 1);
-  const clamped = Math.min(max, Math.max(min, nextValue));
-  const stepped = step > 0 ? Math.round(clamped / step) * step : clamped;
-  if (Number(input.value) === stepped) return false;
-  input.value = String(stepped);
-  input.dispatchEvent(new Event("input", { bubbles: true }));
-  return true;
-}
-
-function initializeKnobs() {
-  knobElements.forEach((knob) => {
-    const inputId = knob.dataset.input;
-    const input = document.getElementById(inputId);
-    if (!input) return;
-
-    const sync = () => setKnobRotation(knob, input);
-    sync();
-    input.addEventListener("input", sync);
-
-    knob.tabIndex = 0;
-    knob.addEventListener("keydown", (event) => {
-      const step = Number(input.step || 1);
-      if (event.key === "ArrowRight" || event.key === "ArrowUp") {
-        event.preventDefault();
-        updateInputValue(input, Number(input.value) + step);
-      }
-      if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
-        event.preventDefault();
-        updateInputValue(input, Number(input.value) - step);
-      }
-    });
-
-    knob.addEventListener(
-      "wheel",
-      (event) => {
-        event.preventDefault();
-        const step = Number(input.step || 1);
-        const direction = event.deltaY < 0 ? 1 : -1;
-        updateInputValue(input, Number(input.value) + direction * step);
-      },
-      { passive: false }
-    );
-
-    knob.addEventListener("pointerdown", (event) => {
-      event.preventDefault();
-      knob.setPointerCapture(event.pointerId);
-      const startY = event.clientY;
-      const startValue = Number(input.value);
-      const min = Number(input.min || 0);
-      const max = Number(input.max || 100);
-      const range = max - min;
-
-      const move = (moveEvent) => {
-        const delta = startY - moveEvent.clientY;
-        const sensitivity = input.id === "stationDial" ? 0.03 : 0.22;
-        const nextValue = startValue + delta * range * sensitivity * 0.01;
-        updateInputValue(input, nextValue);
-      };
-
-      const stop = () => {
-        knob.removeEventListener("pointermove", move);
-        knob.removeEventListener("pointerup", stop);
-        knob.removeEventListener("pointercancel", stop);
-      };
-
-      knob.addEventListener("pointermove", move);
-      knob.addEventListener("pointerup", stop);
-      knob.addEventListener("pointercancel", stop);
-    });
-  });
 }
 
 function buildEqBars(count = 20) {
@@ -575,6 +487,5 @@ window.addEventListener("resize", resizeScopeCanvas);
 buildEqBars();
 resizeScopeCanvas();
 applyVolume();
-initializeKnobs();
 animateVisualizer();
 loadStations();

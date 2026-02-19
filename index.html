@@ -30,38 +30,44 @@
         <section class="console">
           <div class="dial-bank">
             <div class="dial-unit">
-              <p class="label">Volume</p>
-              <div class="knob-wrap">
-                <input id="volumeDial" class="dial-input" type="range" min="0" max="100" value="85" />
-                <div class="knob" data-input="volumeDial" aria-label="Volume dial" role="slider"></div>
-              </div>
+              <label for="volumeDial" class="label">Volume</label>
+              <input
+                id="volumeDial"
+                class="control-slider"
+                type="range"
+                min="0"
+                max="100"
+                value="85"
+                aria-label="Volume"
+              />
             </div>
             <div class="dial-unit">
-              <p class="label">Tone</p>
-              <div class="knob-wrap">
-                <input id="toneDial" class="dial-input" type="range" min="0" max="100" value="62" />
-                <div class="knob" data-input="toneDial" aria-label="Tone dial" role="slider"></div>
-              </div>
+              <label for="toneDial" class="label">Tone</label>
+              <input
+                id="toneDial"
+                class="control-slider"
+                type="range"
+                min="0"
+                max="100"
+                value="62"
+                aria-label="Tone"
+              />
             </div>
           </div>
 
           <section class="tuner" aria-label="Station tuner">
-            <p class="label">Station Tuner</p>
-            <div class="tuner-knob-row">
-              <div class="knob-wrap station-wrap">
-                <input
-                  id="stationDial"
-                  class="dial-input"
-                  type="range"
-                  min="0"
-                  max="0"
-                  value="0"
-                  step="1"
-                  disabled
-                />
-                <div class="knob station-knob" data-input="stationDial" aria-label="Station dial" role="slider"></div>
-              </div>
-            </div>
+            <label for="stationDial" class="label">Station Tuner</label>
+            <input
+              id="stationDial"
+              class="control-slider station-dial"
+              type="range"
+              min="0"
+              max="0"
+              value="0"
+              step="1"
+              disabled
+              aria-label="Station tuner"
+            />
             <div class="station-labels" id="stationLabels"></div>
           </section>
         </section>
