@@ -51,7 +51,57 @@ h1 {
   margin: 0;
   font-size: clamp(2rem, 4.7vw, 3.4rem);
   line-height: 1.05;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #2b1b10;
+  text-shadow: 0 1px 0 rgba(255, 246, 231, 0.65);
+}
+
+.title-plate {
+  position: relative;
+  border-radius: 14px;
+  padding: 12px 16px 13px;
+  border: 1px solid rgba(73, 49, 33, 0.55);
+  background:
+    linear-gradient(180deg, rgba(245, 227, 207, 0.92), rgba(203, 170, 135, 0.9)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.08) 2px,
+      rgba(122, 87, 59, 0.04) 2px,
+      rgba(122, 87, 59, 0.04) 6px
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 252, 242, 0.75),
+    inset 0 -2px 3px rgba(91, 58, 38, 0.2),
+    0 3px 7px rgba(64, 41, 27, 0.2);
+}
+
+.title-plate::before,
+.title-plate::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f4f1ea 0, #81715f 70%, #4c3e31 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45);
+}
+
+.title-plate::before {
+  left: 10px;
+}
+
+.title-plate::after {
+  right: 10px;
+}
+
+.plate-code {
+  margin: 0 0 4px;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  color: #715641;
   text-transform: uppercase;
 }
 
@@ -60,7 +110,7 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 0.75rem;
-  color: var(--text-soft);
+  color: #6d4f3a;
 }
 
 .status-row {
