@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wrenasmir Wradio</title>
+    <meta
+      name="description"
+      content="Tune into Wrenasmir Wradio. Switch between styles and listen to curated stations."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="radio-shell" aria-label="Wrenasmir radio player">
+        <h1>Wrenasmir Wradio</h1>
+        <p class="tagline">Cassette futurism broadcast console</p>
+
+        <div class="status-row">
+          <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+          <p id="statusText">Loading stations...</p>
+        </div>
+
+        <section class="screen" aria-label="Audio activity display">
+          <p class="label">Signal Window</p>
+          <canvas id="scopeCanvas" width="960" height="240"></canvas>
+          <div class="eq-bars" id="eqBars" aria-hidden="true"></div>
+        </section>
+
+        <section class="console">
+          <div class="dial-bank">
+            <div class="dial-unit">
+              <label for="volumeDial" class="label">Volume</label>
+              <input id="volumeDial" class="dial-input" type="range" min="0" max="100" value="85" />
+            </div>
+            <div class="dial-unit">
+              <label for="toneDial" class="label">Tone</label>
+              <input id="toneDial" class="dial-input" type="range" min="0" max="100" value="62" />
+            </div>
+          </div>
+
+          <section class="tuner" aria-label="Station tuner">
+            <label for="stationDial" class="label">Station Tuner</label>
+            <input
+              id="stationDial"
+              class="station-dial"
+              type="range"
+              min="0"
+              max="0"
+              value="0"
+              step="1"
+              disabled
+            />
+            <div class="station-labels" id="stationLabels"></div>
+          </section>
+        </section>
+
+        <div class="now-playing" id="nowPlayingCard">
+          <p class="label">Now Playing</p>
+          <p class="track-title" id="trackTitle">-</p>
+          <p class="track-meta" id="trackMeta">Choose a station to begin.</p>
+        </div>
+
+        <div class="controls">
+          <button id="powerBtn" class="button primary" type="button">Power On</button>
+          <button id="nextBtn" class="button" type="button" disabled>Scan Next</button>
+          <button id="shuffleBtn" class="button" type="button" disabled>Shuffle: On</button>
+        </div>
+
+        <p class="helper" id="helperText">
+          Add your R2 URLs in <code>stations.json</code>, then press Power On.
+        </p>
+      </section>
+    </main>
+
+    <audio id="audio" preload="metadata" crossorigin="anonymous"></audio>
+    <script src="app.js" defer></script>
+  </body>
+</html>

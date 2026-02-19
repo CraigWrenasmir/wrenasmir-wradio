@@ -1,0 +1,78 @@
+{
+  "stations": [
+    {
+      "id": "classical",
+      "name": "Classical",
+      "tracks": [
+        {
+          "title": "Huiev - I",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/classical/Huiev%20-%20I.mp3"
+        },
+        {
+          "title": "Huiev - II",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/classical/Huiev%20-%20II.mp3"
+        },
+        {
+          "title": "Huiev - III",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/classical/Huiev%20-%20III.mp3"
+        },
+        {
+          "title": "Huiev - IV",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/classical/Huiev%20-%20IV.mp3"
+        },
+        {
+          "title": "Untitled 1",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/classical/Untitled%201.mp3"
+        },
+        {
+          "title": "Untitled 3",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/classical/Untitled%203.mp3"
+        }
+      ]
+    },
+    {
+      "id": "electronica",
+      "name": "Electronica",
+      "tracks": [
+        {
+          "title": "Crafluropi",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/electronic/Crafluropi.mp3"
+        },
+        {
+          "title": "Lucempight",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/electronic/Lucempight.mp3"
+        },
+        {
+          "title": "Rdst Gm",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/electronic/Rdst%20Gm.mp3"
+        },
+        {
+          "title": "Vernaliso",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/electronic/Vernaliso.mp3"
+        },
+        {
+          "title": "mornwander ii",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/electronic/mornwander%20ii.mp3"
+        }
+      ]
+    },
+    {
+      "id": "ambient",
+      "name": "Ambient",
+      "tracks": [
+        {
+          "title": "Ornphanic",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/ambient/Ornphanic.mp3"
+        },
+        {
+          "title": "Untitled 4",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/ambient/Untitled%204.mp3"
+        },
+        {
+          "title": "egcbfdce",
+          "url": "https://pub-97e73abb64c94562af4830df3acdc7a0.r2.dev/ambient/egcbfdce.mp3"
+        }
+      ]
+    }
+  ]
+}
