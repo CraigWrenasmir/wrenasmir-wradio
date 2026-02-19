@@ -33,7 +33,8 @@ const state = {
   animationFrameId: null,
   visualSeed: 0,
   consecutiveTrackErrors: 0,
-  useAudioGraph: false
+  useAudioGraph: false,
+  stationSnapAnimating: false
 };
 
 function setStatus(text, mode = "idle") {
@@ -66,9 +67,12 @@ function buildEqBars(count = 20) {
 function renderStationLabels() {
   stationLabels.innerHTML = "";
   state.stations.forEach((station, index) => {
-    const el = document.createElement("span");
+    const el = document.createElement("button");
+    el.type = "button";
     el.className = `station-label${index === state.stationIndex ? " active" : ""}`;
     el.textContent = station.name;
+    el.dataset.stationIndex = String(index);
+    el.setAttribute("aria-label", `Tune to ${station.name}`);
     stationLabels.appendChild(el);
   });
 }
@@ -235,7 +239,10 @@ async function playFromCurrentStation() {
 }
 
 function handleStationChange(index) {
-  state.stationIndex = index;
+  if (!state.stations.length) return;
+  const clamped = Math.max(0, Math.min(state.stations.length - 1, index));
+  state.stationIndex = clamped;
+  stationDial.value = String(clamped);
   renderStationLabels();
   if (state.isPoweredOn) {
     playFromCurrentStation();
@@ -243,6 +250,52 @@ function handleStationChange(index) {
     const station = getCurrentStation();
     trackMeta.textContent = `${station.name} selected. Press Power On.`;
   }
+}
+
+function updateStationPreviewFromSlider() {
+  if (!state.stations.length) return;
+  const nearest = Math.round(Number(stationDial.value));
+  const clamped = Math.max(0, Math.min(state.stations.length - 1, nearest));
+  if (clamped !== state.stationIndex) {
+    state.stationIndex = clamped;
+    renderStationLabels();
+  }
+}
+
+function animateStationDialTo(targetIndex, onComplete) {
+  const start = Number(stationDial.value);
+  const end = Number(targetIndex);
+  const durationMs = 220;
+  const startedAt = performance.now();
+  state.stationSnapAnimating = true;
+
+  const tick = (now) => {
+    const t = Math.min(1, (now - startedAt) / durationMs);
+    const eased = 1 - Math.pow(1 - t, 3);
+    stationDial.value = String(start + (end - start) * eased);
+    updateStationPreviewFromSlider();
+    if (t < 1) {
+      requestAnimationFrame(tick);
+      return;
+    }
+    stationDial.value = String(end);
+    state.stationSnapAnimating = false;
+    if (typeof onComplete === "function") onComplete();
+  };
+
+  requestAnimationFrame(tick);
+}
+
+function commitStationDialSelection() {
+  if (!state.stations.length || state.stationSnapAnimating) return;
+  const target = Math.max(0, Math.min(state.stations.length - 1, Math.round(Number(stationDial.value))));
+  animateStationDialTo(target, () => handleStationChange(target));
+}
+
+function tuneToStation(index) {
+  if (!state.stations.length || state.stationSnapAnimating) return;
+  const target = Math.max(0, Math.min(state.stations.length - 1, index));
+  animateStationDialTo(target, () => handleStationChange(target));
 }
 
 function togglePower() {
@@ -425,6 +478,8 @@ async function loadStations() {
     state.stations = validateStationData(data);
 
     stationDial.max = String(state.stations.length - 1);
+    stationDial.step = "0.01";
+    stationDial.value = "0";
     stationDial.disabled = false;
     nextBtn.disabled = false;
     shuffleBtn.disabled = false;
@@ -451,8 +506,19 @@ shuffleBtn.addEventListener("click", () => {
 });
 
 stationDial.addEventListener("input", (event) => {
-  const nextIndex = Number(event.target.value);
-  handleStationChange(nextIndex);
+  stationDial.value = String(Number(event.target.value));
+  updateStationPreviewFromSlider();
+});
+stationDial.addEventListener("change", commitStationDialSelection);
+stationDial.addEventListener("pointerup", commitStationDialSelection);
+stationDial.addEventListener("touchend", commitStationDialSelection, { passive: true });
+
+stationLabels.addEventListener("click", (event) => {
+  const stationButton = event.target.closest(".station-label");
+  if (!stationButton) return;
+  const nextIndex = Number(stationButton.dataset.stationIndex);
+  if (!Number.isFinite(nextIndex)) return;
+  tuneToStation(nextIndex);
 });
 
 volumeDial.addEventListener("input", applyVolume);

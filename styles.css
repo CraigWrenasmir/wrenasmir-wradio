@@ -247,6 +247,9 @@ h1 {
 }
 
 .station-label {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
   border: 1px solid rgba(74, 51, 37, 0.4);
   border-radius: 12px;
   padding: 7px 8px;
@@ -254,6 +257,11 @@ h1 {
   font-size: 0.84rem;
   color: var(--brown-deep);
   background: rgba(228, 200, 171, 0.46);
+}
+
+.station-label:focus-visible {
+  outline: 2px solid rgba(52, 118, 143, 0.75);
+  outline-offset: 2px;
 }
 
 .station-label.active {
